@@ -1,8 +1,5 @@
-import numpy as np
-import reconocimiento_patrones as rp
 import voz
 import os
-
 
 def nombres_archivos(path, ext):
     archivos = os.listdir(path)
@@ -41,13 +38,3 @@ def procesa_audio(nombre_archivos, M, N, grado):
         audios.append(voz.Voz(nombre, M, N, grado))
         
     return audios
-
-
-if __name__ == '__main__':
-    nombres = obtiene_nombres_archivos()
-    print(f"Se encontraron {len(nombres)} archivos:")
-    for nombre in nombres:
-        print(nombre)
-    audios = procesa_audio(nombres, 10, 12, 8)
-    for audio in audios:
-        print(str(audio))
