@@ -1,5 +1,6 @@
 import numpy as np
 import reconocimiento_patrones as rp
+import wave
 
 class Voz():
     
@@ -11,17 +12,19 @@ class Voz():
         self.vectores_a = None
         self.vectores_coeficientes_wiener = None
         self.nombre = nombre_archivo
-        with wave.open("a.wav", 'rb') as entrada:
+        with wave.open(nombre_archivo, 'rb') as entrada:
             self.muestras_originales = entrada.readframes(entrada.getnframes())
-            self.muestras_mono = audioop.tomono(self.muestras_originales, 2, 1, 0)
+            #self.muestras_mono = audioop.tomono(self.muestras_originales, 2, 1, 0)
             
-            self.muestras_totales = len(self.muestras_mono)
+            #self.muestras_totales = len(self.muestras_mono)
+            self.muestras_totales = len(self.muestras_originales)
             self.tiempo_total = self.muestras_totales / entrada.getframerate()
             
-            self.voz = np.frombuffer(self.muestras_mono, np.int16)
+            #self.voz = np.frombuffer(self.muestras_mono, np.int16)
+            self.voz = np.frombuffer(self.muestras_originales, np.int16)
             
             self.voz_filtro = rp.filtro_preenfasis(self.voz)
-            self.ventanas = rp.forma_bloques(self.filtro, M, N)
+            self.ventanas = rp.forma_bloques(self.voz_filtro, M, N)
             self.ventanas_hamming = rp.ventana_hamming(self.ventanas)
 
     
@@ -78,9 +81,9 @@ class Voz():
         return (inicio, fin)
     
     
-    def __str__():
-        return f"Nombre: {self.nombre} \n Duración: {self.tiempo_total}"
+    def __str__(self):
+        return f"Nombre: {self.nombre}\nDuración: {self.tiempo_total}"
 
 
-    def __repr__():
+    def __repr__(self):
         return f'Voz(nombre={self.nombre}, duración={self.tiempo_total}, M={self.M}, N={self.N}, grado={self.grado}'
