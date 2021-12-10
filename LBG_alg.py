@@ -24,6 +24,7 @@ class LBG():
         self._cuantiza(x, e1, e2, self.num_regiones, e0)
     
 
+    ############### Comprobar que el centroide es el mismo antes y después de volver a calcular cuando num_regiones = 1 ###################
     def _cuantiza(self, x,  e1, e2, num_regiones, e0):
         regiones = self._agrupa(x, e1, e2, e0)
     

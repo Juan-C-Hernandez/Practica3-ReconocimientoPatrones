@@ -12,24 +12,31 @@ def filtro_preenfasis(x):
     return salida
 
 
-def funcion_correlacion(x, sigma):
+def correlacion_corta(x, i):
     """
-        Función de correlación
-        r(s) = 1/N * sum de i = 0 a N-1 de x_i * x_{i+s}
+        suma de k = 0 a N-i de x_k * x_{k+i}
     """
-    sigma = abs(sigma)
-    N = len(x)
-    lim_sup = N - sigma
+    lim_sup = N - abs(i)
     suma = 0
     for i in range(lim_sup):
         suma += x[i] * x[i + sigma]
+    
+    return suma
 
-    return suma / N
+
+def funcion_correlacion(x, i):
+    """
+        Función de correlación
+        r(s) = 1/N * sum de k = 0 a N-1 de x_k * x_{k + 1}
+    """
+
+    return correlacion_corta(x, i) / N
 
 
 def vector_correlacion(x, num_coeficientes):
     vector = np.empty(num_coeficientes)
     for i in range(num_coeficientes):
+        # i + 1 porque el vector correlación no contempla i = 0
         vector[i] = funcion_correlacion(x, i + 1)
 
     return vector
@@ -86,9 +93,18 @@ def ventana_hamming(ventanas):
     return ventanas_hamming
 
 
-def distancia_Itakura_Saito(a, b):
+def distancia_Itakura_Saito(vector1, vector2, sigma=1):
+    #distancia = 0
+    #for i in range(1, len(r_corta)):
+        #distancia += r_corta[i] * correlaciones[i]
+    #distancia = (distancia * 2) + (r_corta[0] * correlaciones[0]) 
+    ##print('Distancia: ', distancia)
+    ##print('r_corta ', r_corta)
+    ##print('correlaciones ', correlaciones)
+    #return distancia
+
+    return (vector1[0] * vector2[0] + 2 * np.dot(vector1, vector2)) / (sigma * sigma)
     
-
-
+    
 def potencia(x):
     return funcion_correlacion(x, 0)
