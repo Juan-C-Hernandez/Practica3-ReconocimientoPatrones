@@ -10,6 +10,7 @@ class Voz():
         self.vectores_r = None
         self.vectores_a = None
         self.vectores_coeficientes_wiener = None
+        self.nombre = nombre_archivo
         with wave.open("a.wav", 'rb') as entrada:
             self.muestras_originales = entrada.readframes(entrada.getnframes())
             self.muestras_mono = audioop.tomono(self.muestras_originales, 2, 1, 0)
@@ -75,3 +76,11 @@ class Voz():
                 break
 
         return (inicio, fin)
+    
+    
+    def __str__():
+        return f"Nombre: {self.nombre} \n Duración: {self.tiempo_total}"
+
+
+    def __repr__():
+        return f'Voz(nombre={self.nombre}, duración={self.tiempo_total}, M={self.M}, N={self.N}, grado={self.grado}'
