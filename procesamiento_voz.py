@@ -32,7 +32,7 @@ def obtiene_nombres_archivos():
             return archivos_finales
 
 
-def procesa_audio(nombre_archivos, M, N, grado):
+def procesa_audios(nombre_archivos, M, N, grado):
     audios = []
     for nombre in nombre_archivos:
         audios.append(voz.Voz(nombre, M, N, grado))
