@@ -29,7 +29,7 @@ class Voz():
 
     
     def vectores_a_con_vectores_r(self, vectores_r):
-        vectores_a = np.empty((len(self.ventanas) + 1, len(r) + 1))
+        vectores_a = np.empty((len(self.ventanas) + 1, len(vectores_r) + 1))
         for i, ventana in enumerate(self.ventanas_hamming):
             vectores_a[i] = rp.vectore_a(ventana, vectores_r[i])
         
@@ -38,33 +38,33 @@ class Voz():
        
     def vectores_correlacion(self):
         if self.vectores_r is None:
-            self.vectores_r = np.empty((len(ventanas), self.grado))
+            self.vectores_r = np.empty((len(self.ventanas), self.grado))
             for i, ventana in enumerate(self.ventanas_hamming):
-                vectores_r[i] = rp.vector_correlacion(ventana, self.grado)
+                self.vectores_r[i] = rp.vector_correlacion(self.ventana, self.grado)
                 
         return self.vectores_r
         
         
     def vectores_coeficientes_wiener(self):
-        if vectores_r is None:
+        if self.vectores_r is None:
             self.vectores_correlacion()
         
         if self.vectores_coeficientes_wiener is None:
-            self.vectores_coeficientes_wiener = np.empty((len(ventanas), self.grado))
+            self.vectores_coeficientes_wiener = np.empty((len(self.ventanas), self.grado))
             for i, ventana in enumerate(self.ventanas_hamming):
-                vectores_coeficientes_wiener[i] = rp.filtro_wiener(ventana, self.vectores_r[i])
+                self.vectores_coeficientes_wiener[i] = rp.filtro_wiener(ventana, self.vectores_r[i])
                 
         return self.vectores_coeficientes_wiener
     
     
-    def calcula_tiempo_ventana(indice_ventana):
+    def _calcula_tiempo_ventana(self, indice_ventana):
         tiempo_inicial = self.tiempo_total * indice_ventana * self.M / self.muestras_totales
         tiempo_final = self.tiempo_total * (indice_ventana * self.M + self.N) / self.muestras_totales
 
         return (tiempo_inicial, tiempo_final)
 
 
-    def encuentra_ventanas_extremos(referencia=0.3):
+    def _encuentra_ventanas_extremos(self, referencia=0.3):
         num_potencias = len(self.potencias) - 1
         inicio = 0
         fin = num_potencias

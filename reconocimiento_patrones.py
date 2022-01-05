@@ -16,10 +16,10 @@ def correlacion_corta(x, i):
     """
         suma de k = 0 a N-i de x_k * x_{k+i}
     """
-    lim_sup = N - abs(i)
+    lim_sup = len(x) - abs(i)
     suma = 0
     for i in range(lim_sup):
-        suma += x[i] * x[i + sigma]
+        suma += x[i] * x[i + i]
     
     return suma
 
@@ -30,7 +30,7 @@ def funcion_correlacion(x, i):
         r(s) = 1/N * sum de k = 0 a N-1 de x_k * x_{k + 1}
     """
 
-    return correlacion_corta(x, i) / N
+    return correlacion_corta(x, i) / len(x)
 
 
 def vector_correlacion(x, num_coeficientes):
