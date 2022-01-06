@@ -1,13 +1,8 @@
-import numpy as np
-import reconocimiento_patrones as rp
-import procesamiento_voz as pv
+from procesamiento_voz import procesa_audios
+import voz
+import archivos
 
 
 if __name__ == '__main__':
-    nombres = pv.obtiene_nombres_archivos()
-    print(f"Se encontraron {len(nombres)} archivos:")
-    for nombre in nombres:
-        print(nombre)
-    audios = pv.procesa_audio(nombres, 10, 12, 8)
-    for audio in audios:
-        print(str(audio))
+    nombre = archivos.obtiene_nombres_archivos()
+    
