@@ -5,8 +5,7 @@ import reconocimiento_patrones as rp
 class LBG():
     
     def __init__(self, num_regiones=8):
-        self.num_regiones = num_regiones
-        
+        self.num_regiones = num_regiones        
         self._centroides = np.empty((num_regiones, 2))
         self._indice_actual = 0
         
@@ -15,13 +14,13 @@ class LBG():
         return np.mean(x, 0)
     
     
-    def cuantiza(self, x, epsilon1=None, epsilon2=None, e0=0.0001, dist_func=None):
-        e1 = epsilon1 if not epsilon1 is None else np.random.uniform(0, 0.001)
-        e2 = epsilon2 if not epsilon2 is None else np.random.uniform(0, 0.001)
+    def cuantiza(self, x, epsilon1=None, epsilon2=None, error=0.0001, dist_func=None):
+        epsilon1 = epsilon1 if not epsilon1 is None else np.random.uniform(0, 0.001)
+        epsilon2 = epsilon2 if not epsilon2 is None else np.random.uniform(0, 0.001)
         
-        self.dist_func = dist_func if not dist_func is None else self._distancia_norm
+        self.dist_func = dist_func if not (dist_func is None) else self._distancia_norm
         
-        self._cuantiza(x, e1, e2, self.num_regiones, e0)
+        self._cuantiza(x, epsilon1, epsilon2, self.num_regiones, error)
     
 
     ############### Comprobar que el centroide es el mismo antes y después de volver a calcular cuando num_regiones = 1 ###################
