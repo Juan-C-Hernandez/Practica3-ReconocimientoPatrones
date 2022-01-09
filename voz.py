@@ -10,7 +10,7 @@ class Voz():
         self.grado = grado
         self.vectores_r = None
         self.vectores_a = None
-        self.vectores_coeficientes_wiener = None
+        self.coeficientes_wiener = None
         self.nombre = nombre_archivo
         with wave.open(nombre_archivo, 'rb') as entrada:
             self.muestras_originales = entrada.readframes(entrada.getnframes())
@@ -49,13 +49,17 @@ class Voz():
         if self.vectores_r is None:
             self.vectores_correlacion()
         
-        if self.vectores_coeficientes_wiener is None:
-            self.vectores_coeficientes_wiener = np.empty((len(self.ventanas), self.grado))
+        if self.coeficientes_wiener is None:
+            self.coeficientes_wiener = np.empty((len(self.ventanas), self.grado))
             for i, ventana in enumerate(self.ventanas_hamming):
-                self.vectores_coeficientes_wiener[i] = rp.filtro_wiener(ventana, self.vectores_r[i])
+                self.coeficientes_wiener[i] = rp.filtro_wiener(ventana, self.vectores_r[i])
                 
-        return self.vectores_coeficientes_wiener
+        return self.coeficientes_wiener
     
+    
+    def shape(self):
+        return self.coeficientes_wiener.shape
+
     
     def _calcula_tiempo_ventana(self, indice_ventana):
         tiempo_inicial = self.tiempo_total * indice_ventana * self.M / self.muestras_totales
